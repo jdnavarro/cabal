@@ -62,7 +62,21 @@ $(USERGUIDE_STAMP): doc/*.markdown
 	done
 	cp doc/$(PANDOC_HTML_CSS) $(PANDOC_HTML_OUTDIR)
 
-docs: haddock users-guide
+command/full-help.txt: $(BUILD_STAMP)
+	mkdir -p dist/doc/command
+	./setup --help > dist/doc/$@
+
+command/full-help.markdown: command/full-help.txt
+	$(PANDOC) $(PANDOC_OPTIONS) dist/doc/$< --to=markdown --output dist/doc/$@
+
+man/cabal-install.1: command/full-help.markdown man/cabal-install.1.template
+	mkdir -p dist/doc/man
+	pandoc dist/doc/$< -t man --template man/cabal-install.1.template --output dist/doc/$@
+		# --filter man/capitalizeHeaders.hs \
+		# --filter man/removeNotes.hs \
+		# --filter man/removeLinks.hs \
+
+docs: haddock users-guide man/cabal-install.1
 
 clean:
 	rm -rf dist/

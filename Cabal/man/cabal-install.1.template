@@ -1,0 +1,9 @@
+$if(has-tables)$
+.\"t
+$endif$
+.TH CABAL-INSTALL 1 "$date$" "$version$"
+.SH NAME
+cabal-install - command-line interface for Cabal and Hackage
+$body$
+.PP
+For more information check <https://haskell.org/cabal>.
