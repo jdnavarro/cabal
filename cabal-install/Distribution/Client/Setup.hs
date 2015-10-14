@@ -196,17 +196,17 @@ globalCommand commands = CommandUI {
           ]
         maxlen    = maximum $ [length name | (name, _) <- cmdDescs]
         align str = str ++ replicate (maxlen - length str) ' '
-        startGroup n = " ["++n++"]"
+        startGroup n = "## " ++ n ++ "\n"
         par          = ""
         addCmd n     = case lookup n cmdDescs of
                          Nothing -> ""
-                         Just d -> "  " ++ align n ++ "    " ++ d
+                         Just d -> n ++ "\n  : " ++ d ++ "\n"
         addCmdCustom n d = case lookup n cmdDescs of -- make sure that the
                                                   -- command still exists.
                          Nothing -> ""
-                         Just _ -> "  " ++ align n ++ "    " ++ d
+                         Just _ -> n ++ "\n  : " ++ d ++ "\n"
       in
-         "Commands:\n"
+         "# Commands\n\n"
       ++ unlines (
         [ startGroup "global"
         , addCmd "update"
